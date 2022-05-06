@@ -12,11 +12,15 @@ namespace eShopSolution.AdminApp.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly ICategoryApiClient _categoryApiClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CategoryController(IConfiguration configuration, ICategoryApiClient categoryApiClient)
+        public CategoryController(IConfiguration configuration, 
+            ICategoryApiClient categoryApiClient,
+            IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             _categoryApiClient = categoryApiClient;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 5)
         {
@@ -63,10 +67,10 @@ namespace eShopSolution.AdminApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int categoryId)
+        public async Task<IActionResult> Edit(int id)
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
-            var category = await _categoryApiClient.GetById(languageId, categoryId);
+            var category = await _categoryApiClient.GetById(languageId, id);
             var editVm = new CategoryUpdateRequest()
             {
                 Id = category.Id,
@@ -80,11 +84,12 @@ namespace eShopSolution.AdminApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(CategoryUpdateRequest request)
         {
+            request.LanguageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
             if (!ModelState.IsValid)
                 return View(request);
 
             var result = await _categoryApiClient.UpdateCategory(request);
-            if (result.IsSuccessed)
+            if (result)
             {
                 TempData["result"] = "Cập nhật danh mục thành công";
                 return RedirectToAction("Index");

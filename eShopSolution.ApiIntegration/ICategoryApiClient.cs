@@ -17,7 +17,7 @@ namespace eShopSolution.ApiIntegration
 
         Task<ApiResult<bool>> CreateCategory(CategoryCreateRequest request);
 
-        Task<ApiResult<bool>> UpdateCategory(CategoryUpdateRequest request);
+        Task<bool> UpdateCategory(CategoryUpdateRequest request);
 
         Task<ApiResult<bool>> DeleteCategory(int categoryId);
     }

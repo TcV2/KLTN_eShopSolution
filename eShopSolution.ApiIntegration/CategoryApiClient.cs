@@ -1,4 +1,5 @@
 ﻿using eShopSolution.ApiIntegration;
+using eShopSolution.Utilities.Constants;
 using eShopSolution.ViewModels.Catalog.Categories;
 using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
@@ -69,7 +70,7 @@ namespace eShopSolution.ApiIntegration
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
 
-        public async Task<ApiResult<bool>> UpdateCategory(CategoryUpdateRequest request)
+        public async Task<bool> UpdateCategory(CategoryUpdateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
@@ -80,12 +81,12 @@ namespace eShopSolution.ApiIntegration
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/categories", httpContent);
+            var response = await client.PutAsync($"/api/categories/{request.Id}", httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
+                return true;//JsonConvert.DeserializeObject<bool>(result);
 
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+            return false;//JsonConvert.DeserializeObject<bool>(result);
         }
 
         public async Task<PagedResult<CategoryVm>> GetAllPaging(GetCategoryPagingRequest request)

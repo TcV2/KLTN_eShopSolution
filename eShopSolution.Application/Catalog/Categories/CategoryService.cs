@@ -66,13 +66,15 @@ namespace eShopSolution.Application.Catalog.Categories
             var categoryTranslations = await _context.CategoryTranslations.FirstOrDefaultAsync(x => x.CategoryId == request.Id
             && x.LanguageId == request.LanguageId);
 
-            if (category == null || categoryTranslations == null) throw new EShopException($"Cannot find a category with id: {request.Id}");
+            if (category == null || categoryTranslations == null) 
+                throw new EShopException($"Cannot find a category with id: {request.Id}");
 
             categoryTranslations.Name = request.Name;
             categoryTranslations.SeoAlias = request.SeoAlias;
             categoryTranslations.SeoDescription = request.SeoDescription;
             categoryTranslations.SeoTitle = request.SeoTitle;
 
+            //_context.CategoryTranslations.Update(categoryTranslations);
             return await _context.SaveChangesAsync();
         }
 

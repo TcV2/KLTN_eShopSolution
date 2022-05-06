@@ -63,7 +63,7 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpPut("{categoryId}")]
         [Authorize]
-        public async Task<IActionResult> Update([FromRoute] int categoryId, [FromForm] CategoryUpdateRequest request)
+        public async Task<IActionResult> Update([FromRoute] int categoryId, [FromBody] CategoryUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
