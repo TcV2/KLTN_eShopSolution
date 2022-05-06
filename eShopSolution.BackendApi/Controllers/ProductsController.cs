@@ -107,8 +107,29 @@ namespace eShopSolution.BackendApi.Controllers
             return BadRequest();
         }
 
+        [HttpPatch("{productId}/{addedQuantity}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateStock(int productId, int addedQuantity)
+        {
+            var isSuccessful = await _productService.UpdateStock(productId, addedQuantity);
+            if (isSuccessful)
+                return Ok();
+
+            return BadRequest();
+        }
+
         //Images
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetListImages(int productId)
+        {
+            var image = await _productService.GetListImages(productId);
+            if (image == null)
+                return BadRequest("Cannot find images of product");
+            return Ok(image);
+        }
+
         [HttpPost("{productId}/images")]
+        //[Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateImage(int productId, [FromForm] ProductImageCreateRequest request)
         {
             if (!ModelState.IsValid)

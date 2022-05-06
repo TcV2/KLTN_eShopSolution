@@ -166,5 +166,43 @@ namespace eShopSolution.ApiIntegration
         {
             return await Delete($"/api/products/" + id);
         }
+
+        public async Task<ApiResult<bool>> UpdatePrice(int productId, decimal newPrice)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var json = JsonConvert.SerializeObject(new { productId, newPrice });
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PatchAsync($"/api/products/{productId}/{newPrice}", httpContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+        }
+
+        public async Task<ApiResult<bool>> UpdateStock(int productId, int addedQuantity)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var json = JsonConvert.SerializeObject(new { productId, addedQuantity });
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PatchAsync($"/api/products/{productId}/{addedQuantity}", httpContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+        }
     }
 }

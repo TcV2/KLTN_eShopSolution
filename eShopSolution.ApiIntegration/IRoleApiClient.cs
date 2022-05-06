@@ -10,5 +10,15 @@ namespace eShopSolution.ApiIntegration
     public interface IRoleApiClient
     {
         Task<ApiResult<List<RoleVm>>> GetAll();
+
+        Task<ApiResult<PagedResult<RoleVm>>> GetRolePagings(GetRolePagingRequest request);
+
+        Task<ApiResult<RoleVm>> GetById(Guid id);
+
+        Task<ApiResult<bool>> CreateRole(RoleCreateRequest request);
+
+        Task<ApiResult<bool>> UpdateRole(Guid id, RoleUpdateRequest request);
+
+        Task<ApiResult<bool>> DeleteRole(Guid id);
     }
 }
