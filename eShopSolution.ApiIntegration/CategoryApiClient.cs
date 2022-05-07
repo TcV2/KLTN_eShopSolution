@@ -40,10 +40,12 @@ namespace eShopSolution.ApiIntegration
             return await GetAsync<CategoryVm>($"/api/categories/{id}/{languageId}");
         }
 
-        public async Task<ApiResult<bool>> CreateCategory(CategoryCreateRequest request)
+        public async Task<bool> CreateCategory(CategoryCreateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -51,12 +53,12 @@ namespace eShopSolution.ApiIntegration
             var response = await client.PostAsync($"/api/categories", httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
+                return true;//JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
 
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+            return false;// JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
         }
 
-        public async Task<ApiResult<bool>> DeleteCategory(int categoryId)
+        public async Task<bool> DeleteCategory(int categoryId)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
@@ -65,9 +67,9 @@ namespace eShopSolution.ApiIntegration
             var response = await client.DeleteAsync($"/api/categories/{categoryId}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+                return true;//JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
 
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+            return false;//JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
 
         public async Task<bool> UpdateCategory(CategoryUpdateRequest request)

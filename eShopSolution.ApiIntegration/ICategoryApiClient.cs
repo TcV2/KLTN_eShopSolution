@@ -15,10 +15,10 @@ namespace eShopSolution.ApiIntegration
 
         Task<PagedResult<CategoryVm>> GetAllPaging(GetCategoryPagingRequest request);
 
-        Task<ApiResult<bool>> CreateCategory(CategoryCreateRequest request);
+        Task<bool> CreateCategory(CategoryCreateRequest request);
 
         Task<bool> UpdateCategory(CategoryUpdateRequest request);
 
-        Task<ApiResult<bool>> DeleteCategory(int categoryId);
+        Task<bool> DeleteCategory(int categoryId);
     }
 }

@@ -1,17 +1,16 @@
-﻿@model eShopSolution.ViewModels.Catalog.Categories.CategoryUpdateRequest
+﻿@model eShopSolution.ViewModels.Catalog.Categories.CategoryCreateRequest
 
 @{
-    ViewData["Title"] = "Cập nhật danh mục sản phẩm";
+    ViewData["Title"] = "Tạo mới danh mục sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid">
-    <h1 class="mt-4">Cập nhật danh mục sản phẩm</h1>
+    <h1 class="mt-4">Tạo mới danh mục sản phẩm</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-        <li class="breadcrumb-item active">Cập nhật danh mục sản phẩm</li>
+        <li class="breadcrumb-item active">Tạo mới danh mục sản phẩm</li>
     </ol>
-
     <div class="card mb-4">
         <div class="card-header">
             <a class="btn btn-success" asp-action="Index" asp-controller="Category">Về danh sách</a>
@@ -19,7 +18,7 @@
 
         <div class="card-body">
             <div class="col-md-8">
-                <form asp-action="Edit">
+                <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>                    
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
@@ -42,13 +41,11 @@
                         <span asp-validation-for="SeoAlias" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Cập nhật" class="btn btn-primary" />
+                        <input type="submit" value="Tạo mới" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
         </div>
-
-        
     </div>
 </div>
 

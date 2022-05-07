@@ -52,17 +52,19 @@ namespace eShopSolution.AdminApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoryCreateRequest request)
         {
+            request.LanguageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
             if (!ModelState.IsValid)
                 return View();
 
             var result = await _categoryApiClient.CreateCategory(request);
-            if (result.ResultObj)
+            if (result)
             {
                 TempData["result"] = "Thêm mới danh mục thành công";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", result.Message);
+            //ModelState.AddModelError("", result.Message);
+            ModelState.AddModelError("", "Thêm mới danh mục thất bại");
             return View(request);
         }
 
@@ -96,6 +98,32 @@ namespace eShopSolution.AdminApp.Controllers
             }
 
             ModelState.AddModelError("", "Cập nhật danh mục thất bại");
+            return View(request);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            return View(new CategoryDeleteRequest()
+            {
+                Id = id
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(CategoryDeleteRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _categoryApiClient.DeleteCategory(request.Id);
+            if (result)
+            {
+                TempData["result"] = "Xóa danh mục sản phẩm thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Xóa không thành công");
             return View(request);
         }
     }
