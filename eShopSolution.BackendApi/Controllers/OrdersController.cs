@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
+using eShopSolution.Application.Sales;
+using eShopSolution.ViewModels.Sales;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eShopSolution.BackendApi.Controllers
@@ -11,5 +10,28 @@ namespace eShopSolution.BackendApi.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
+        private readonly IOrderService _orderService;
+
+        public OrdersController(
+            IOrderService orderService)
+        {
+            _orderService = orderService;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAll(string languageId)
+        {
+            var orders = await _orderService.GetAll(languageId);
+            return Ok(orders);
+        }
+
+        [HttpGet("paging")]
+        //[Authorize]
+        public async Task<IActionResult> GetAllPaging([FromQuery] GetOrderPagingRequest request)
+        {
+            var orders = await _orderService.GetOrderPaging(request);
+            return Ok(orders);
+        }
     }
 }
