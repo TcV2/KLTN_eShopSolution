@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using eShopSolution.Application.Catalog.Categories;
 using eShopSolution.Application.Catalog.Products;
+using eShopSolution.Application.Catalog.Warehouses;
 using eShopSolution.Application.Common;
 using eShopSolution.Application.Sales;
 using eShopSolution.Application.System.Languages;
@@ -51,6 +52,8 @@ namespace eShopSolution.BackendApi
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IWarehouseService, WarehouseService>();
+            
 
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
@@ -60,6 +63,7 @@ namespace eShopSolution.BackendApi
 
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
+
 
             //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();

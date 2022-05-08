@@ -36,6 +36,8 @@ builder.Services.AddTransient<ILanguageApiClient, LanguageApiClient>();
 builder.Services.AddTransient<IProductApiClient, ProductApiClient>();
 builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 builder.Services.AddTransient<IOrderApiClient, OrderApiClient>();
+builder.Services.AddTransient<IWarehouseApiClient, WarehouseApiClient>();
+
 builder.Services.AddRazorPages();
 
 

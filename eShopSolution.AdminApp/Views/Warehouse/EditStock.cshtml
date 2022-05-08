@@ -1,0 +1,38 @@
+﻿@model eShopSolution.ViewModels.Catalog.Warehouses.UpdateStockRequest
+
+@{
+    ViewData["Title"] = "Nhập hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Nhập hàng</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Nhập hàng</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index" asp-controller="Warehouse">Về danh sách</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-8">
+                <form asp-action="EditStock">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>                    
+                    <div class="form-group">
+                        <label asp-for="Quantity" class="control-label"></label>
+                        <input asp-for="Quantity" class="form-control" />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Nhập hàng" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
