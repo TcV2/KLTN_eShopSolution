@@ -13,5 +13,7 @@ namespace eShopSolution.Application.Sales
         Task<List<OrderVM>> GetAll(string languageId);
 
         Task<PagedResult<OrderVM>> GetOrderPaging(GetOrderPagingRequest request);
+
+        Task<int> Update(OrderConfirmRequest request);
     }
 }

@@ -12,5 +12,7 @@ namespace eShopSolution.ApiIntegration
         Task<List<OrderVM>> GetAll(string languageId);
 
         Task<PagedResult<OrderVM>> GetAllPaging(GetOrderPagingRequest request);
+
+        Task<bool> UpdateOrder(OrderConfirmRequest request);
     }
 }

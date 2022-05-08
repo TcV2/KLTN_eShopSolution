@@ -37,5 +37,31 @@ namespace eShopSolution.AdminApp.Controllers
             }
             return View(data);
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            return View(new OrderConfirmRequest()
+            {
+                Id = id
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(OrderConfirmRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View(request);
+
+            var result = await _orderApiClient.UpdateOrder(request);
+            if (result)
+            {
+                TempData["result"] = "Xác nhận đơn hàng thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Xác nhận đơn hàng thất bại");
+            return View(request);
+        }
     }
 }

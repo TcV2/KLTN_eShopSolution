@@ -27,11 +27,26 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpGet("paging")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetOrderPagingRequest request)
         {
             var orders = await _orderService.GetOrderPaging(request);
             return Ok(orders);
+        }
+
+        [HttpPut("{orderId}")]
+        [Authorize]
+        public async Task<IActionResult> Update([FromRoute] int orderId, [FromBody] OrderConfirmRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            request.Id = orderId;
+            var affectedResult = await _orderService.Update(request);
+            if (affectedResult == 0)
+                return BadRequest();
+            return Ok();
         }
     }
 }

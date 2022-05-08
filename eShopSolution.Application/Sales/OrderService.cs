@@ -82,5 +82,14 @@ namespace eShopSolution.Application.Sales
             };
             return pagedResult;
         }
+
+        public async Task<int> Update(OrderConfirmRequest request)
+        {
+            var order = await _context.Orders.FindAsync(request.Id);
+
+            order.Status = OrderStatus.Confirmed;
+
+            return await _context.SaveChangesAsync();
+        }
     }
 }
