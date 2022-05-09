@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eShopSolution.ApiIntegration;
@@ -53,8 +52,9 @@ namespace eShopSolution.WebApp.Controllers
                 OrderDetails = orderDetails
             };
             //TODO: Add to API
+            
             TempData["SuccessMsg"] = "Đặt hàng thành công!";
-            return View(model);
+            return View(checkoutRequest);
         }
 
         [HttpGet]

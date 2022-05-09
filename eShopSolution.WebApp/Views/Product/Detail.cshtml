@@ -53,7 +53,7 @@
         <hr class="soft" />
         <form class="form-horizontal qtyFrm">
             <div class="control-group">
-                <label class="control-label"><span>$222.00</span></label>
+                <label class="control-label"><span>@Model.Product.Price</span>VND</label>
                 <div class="controls">
                     <input type="number" class="span1" placeholder="Qty." />
                     <button type="submit" class="btn btn-large btn-primary pull-right"> <localize>Add to</localize> <i class=" icon-shopping-cart"></i></button>
@@ -122,7 +122,7 @@
                             </div>
                             <div class="span3 alignR">
                                 <form class="form-horizontal qtyFrm">
-                                    <h3> $222.00</h3>
+                                    <h3> @Model.Product.Price <span>VND</span></h3>
                                     <label class="checkbox">
                                         <input type="checkbox">  Adds product to compair
                                     </label><br />

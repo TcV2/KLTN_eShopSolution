@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using eShopSolution.Application.Sales;
 using eShopSolution.ViewModels.Sales;
+using eShopSolution.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,6 +49,27 @@ namespace eShopSolution.BackendApi.Controllers
             if (affectedResult == 0)
                 return BadRequest();
             return Ok();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Checkout(Guid id, [FromBody]CheckoutViewModel request)
+        {
+            //Guid guid = (Guid)Membership.GetUser().ProviderUserKey;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _orderService.Checkout(id,request);
+            if (result>0)
+            {
+                //return BadRequest(result);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
     }
 }

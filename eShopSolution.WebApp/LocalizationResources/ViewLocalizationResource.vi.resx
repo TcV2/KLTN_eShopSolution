@@ -157,6 +157,10 @@
     <value>Đăng nhập</value>
     <comment>Layouts</comment>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Đăng xuất</value>
+    <comment>Layouts</comment>
+  </data>
   <data name="More Details" xml:space="preserve">
     <value>Xem thêm chi tiết</value>
     <comment>Common</comment>
@@ -180,6 +184,10 @@
   <data name="productUrl" xml:space="preserve">
     <value>san-pham</value>
     <comment>Layouts</comment>
+  </data>
+  <data name="Purchase" xml:space="preserve">
+    <value>Đặt hàng</value>
+    <comment>Cart/Checkout</comment>
   </data>
   <data name="Related Products" xml:space="preserve">
     <value>Sản phẩm liên quan</value>

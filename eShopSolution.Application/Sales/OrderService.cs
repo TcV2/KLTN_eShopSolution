@@ -1,8 +1,14 @@
 ﻿using eShopSolution.Data.EF;
+using eShopSolution.Data.Entities;
 using eShopSolution.Data.Enums;
+using eShopSolution.Utilities.Constants;
 using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.Sales;
+using eShopSolution.WebApp.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +24,41 @@ namespace eShopSolution.Application.Sales
         public OrderService(EShopDbContext context)
         {
             _context = context;
+        }
+        
+        public async Task<int> Checkout(Guid id, CheckoutViewModel request)
+        {
+            
+            var order = new Order()
+            {
+                UserId = id,
+                OrderDate = DateTime.Now,
+                ShipAddress = request.CheckoutModel.Address,
+                ShipName = request.CheckoutModel.Name,
+                ShipEmail = request.CheckoutModel.Email,
+                ShipPhoneNumber = request.CheckoutModel.PhoneNumber
+            };
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            var odDetails = new List<OrderDetail>();
+            foreach (var item in request.CartItems)
+            {
+                odDetails.Add(new OrderDetail()
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Price = item.Price,
+                    TotalPrice = item.Price * item.Quantity,
+                    OrderId = order.Id
+                });
+            }
+            foreach (var item in odDetails)
+            {
+                await _context.OrderDetails.AddAsync(item);
+            }
+            await _context.SaveChangesAsync();
+            return order.Id;
         }
 
         public async Task<List<OrderVM>> GetAll(string languageId)
