@@ -1,4 +1,5 @@
-﻿using eShopSolution.Data.Entities;
+﻿using eShopSolution.Data.EF;
+using eShopSolution.Data.Entities;
 using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
@@ -21,16 +22,19 @@ namespace eShopSolution.Application.System.Users
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
+        private readonly EShopDbContext _context;
 
         public UserService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
+            EShopDbContext context,
             IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _config = config;
+            _context = context;
         }
 
         public async Task<ApiResult<string>> Authencate(LoginRequest request)
@@ -97,6 +101,20 @@ namespace eShopSolution.Application.System.Users
                 Roles = roles
             };
             return new ApiSuccessResult<UserVm>(userVm);
+        }
+
+        public async Task<Guid> GetGuidOfUsername(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            string id = user.Id.ToString();
+
+            //if (username != null)
+            //{
+            //    query = query.Where(x => x.UserName.Contains(username));
+            //}
+            //var id = query.Select(x => x.Id);
+            Guid guid = new Guid(id);
+            return guid;
         }
 
         public async Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request)

@@ -54,7 +54,8 @@ namespace eShopSolution.WebApp.Controllers
             //TODO: Add to API
             
             TempData["SuccessMsg"] = "Đặt hàng thành công!";
-            return View(checkoutRequest);
+            //return View(checkoutRequest);
+            return View(model);
         }
 
         [HttpGet]

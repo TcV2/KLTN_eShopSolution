@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using eShopSolution.Application.Sales;
+using eShopSolution.Application.System.Users;
 using eShopSolution.ViewModels.Sales;
 using eShopSolution.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eShopSolution.BackendApi.Controllers
@@ -13,11 +15,14 @@ namespace eShopSolution.BackendApi.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IUserService _userService;
 
         public OrdersController(
-            IOrderService orderService)
+            IOrderService orderService,
+            IUserService userService)
         {
             _orderService = orderService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -53,9 +58,10 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Checkout(Guid id, [FromBody]CheckoutViewModel request)
-        {
-            //Guid guid = (Guid)Membership.GetUser().ProviderUserKey;
+        public async Task<IActionResult> Checkout([FromBody]CheckoutViewModel request)
+        {            
+            var username = User.Identity.Name;
+            Guid id = await _userService.GetGuidOfUsername(username);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
