@@ -14,5 +14,7 @@ namespace eShopSolution.ApiIntegration
         Task<PagedResult<OrderVM>> GetAllPaging(GetOrderPagingRequest request);
 
         Task<bool> UpdateOrder(OrderConfirmRequest request);
+
+        Task<bool> Checkout(CheckoutRequest request);
     }
 }

@@ -17,7 +17,7 @@ namespace eShopSolution.Application.Sales
 
         Task<int> Update(OrderConfirmRequest request);
 
-        Task<int> Checkout(Guid id,CheckoutViewModel request);
+        Task<int> Checkout(Guid id, CheckoutRequest request);
 
         //Task<Guid> GetUserId(string username);
     }

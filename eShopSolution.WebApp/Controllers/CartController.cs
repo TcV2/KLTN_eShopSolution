@@ -14,10 +14,13 @@ namespace eShopSolution.WebApp.Controllers
     public class CartController : Controller
     {
         private readonly IProductApiClient _productApiClient;
+        private readonly IOrderApiClient _orderApiClient;
 
-        public CartController(IProductApiClient productApiClient)
+        public CartController(IProductApiClient productApiClient,
+            IOrderApiClient orderApiClient)
         {
             _productApiClient = productApiClient;
+            _orderApiClient = orderApiClient;
         }
 
         public IActionResult Index()
@@ -31,7 +34,7 @@ namespace eShopSolution.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Checkout(CheckoutViewModel request)
+        public async Task<IActionResult> Checkout(CheckoutViewModel request)
         {
             var model = GetCheckoutViewModel();
             var orderDetails = new List<OrderDetailVm>();
@@ -40,7 +43,8 @@ namespace eShopSolution.WebApp.Controllers
                 orderDetails.Add(new OrderDetailVm()
                 {
                     ProductId = item.ProductId,
-                    Quantity = item.Quantity
+                    Quantity = item.Quantity,
+                    Price = item.Price
                 });
             }
             var checkoutRequest = new CheckoutRequest()
@@ -52,10 +56,20 @@ namespace eShopSolution.WebApp.Controllers
                 OrderDetails = orderDetails
             };
             //TODO: Add to API
-            
-            TempData["SuccessMsg"] = "Đặt hàng thành công!";
-            //return View(checkoutRequest);
-            return View(model);
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var result = await _orderApiClient.Checkout(checkoutRequest);
+            if (result)
+            {
+                TempData["SuccessMsg"] = "Đặt hàng thành công!";
+                return View(model);
+            }
+            else
+            {
+                TempData["SuccessMsg"] = "Đặt hàng thất bại!";
+                return View(model);
+            }            
         }
 
         [HttpGet]

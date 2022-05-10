@@ -26,23 +26,23 @@ namespace eShopSolution.Application.Sales
             _context = context;
         }
         
-        public async Task<int> Checkout(Guid id, CheckoutViewModel request)
+        public async Task<int> Checkout(Guid id, CheckoutRequest request)
         {
             
             var order = new Order()
             {
                 UserId = id,
                 OrderDate = DateTime.Now,
-                ShipAddress = request.CheckoutModel.Address,
-                ShipName = request.CheckoutModel.Name,
-                ShipEmail = request.CheckoutModel.Email,
-                ShipPhoneNumber = request.CheckoutModel.PhoneNumber
+                ShipAddress = request.Address,
+                ShipName = request.Name,
+                ShipEmail = request.Email,
+                ShipPhoneNumber = request.PhoneNumber
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
             var odDetails = new List<OrderDetail>();
-            foreach (var item in request.CartItems)
+            foreach (var item in request.OrderDetails)
             {
                 odDetails.Add(new OrderDetail()
                 {

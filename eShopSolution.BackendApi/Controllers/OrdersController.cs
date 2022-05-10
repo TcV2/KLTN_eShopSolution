@@ -58,7 +58,7 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Checkout([FromBody]CheckoutViewModel request)
+        public async Task<IActionResult> Checkout([FromBody] CheckoutRequest request)
         {            
             var username = User.Identity.Name;
             Guid id = await _userService.GetGuidOfUsername(username);

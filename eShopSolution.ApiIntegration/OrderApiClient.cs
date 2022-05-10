@@ -26,6 +26,24 @@ namespace eShopSolution.ApiIntegration
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task<bool> Checkout(CheckoutRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync($"/api/orders", httpContent);
+            //var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return true;//JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
+
+            return false;// JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+        }
+
         public async Task<List<OrderVM>> GetAll(string languageId)
         {
             return await GetListAsync<OrderVM>("/api/orders?languageId=" + languageId);
