@@ -92,7 +92,7 @@ namespace eShopSolution.Application.Sales
                         select new { od, odd, pt };
             //2. filter - lọc theo keyword
             if (!string.IsNullOrEmpty(request.Keyword))
-                query = query.Where(x => x.pt.Name.Contains(request.Keyword));
+                query = /*query.Where(x => x.pt.Name.Contains(request.Keyword)) ||*/ query.Where(x => x.od.Id.ToString() == request.Keyword);
 
             //3. Paging - phân trang
             int totalRow = await query.CountAsync();
@@ -128,7 +128,7 @@ namespace eShopSolution.Application.Sales
         {
             var order = await _context.Orders.FindAsync(request.Id);
 
-            order.Status = OrderStatus.Confirmed;
+            order.Status = OrderStatus.Approved;
 
             return await _context.SaveChangesAsync();
         }

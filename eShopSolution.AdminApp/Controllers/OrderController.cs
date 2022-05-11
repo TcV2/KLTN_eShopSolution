@@ -17,7 +17,7 @@ namespace eShopSolution.AdminApp.Controllers
         {
             _orderApiClient = orderApiClient;
         }
-        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 5)
+        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 

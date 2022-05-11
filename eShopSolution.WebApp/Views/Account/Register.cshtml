@@ -3,12 +3,16 @@
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    var culture = CultureInfo.CurrentCulture.Name;
+}
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
 
 <ul class="breadcrumb">
     <li><a href="index.html">Home</a> <span class="divider">/</span></li>
-    <li class="active">Registration</li>
+    <li class="active"><localize>Registration</localize></li>
 </ul>
-<h3> Registration</h3>
+<h3><localize>Registration</localize></h3>
 <div class="well">
     <!--
     <div class="alert alert-info fade in">

@@ -62,13 +62,14 @@ namespace eShopSolution.WebApp.Controllers
             var result = await _orderApiClient.Checkout(checkoutRequest);
             if (result)
             {
-                TempData["SuccessMsg"] = "Đặt hàng thành công!";
+                TempData["SuccessMsg"] = "Đặt hàng thành công! Đơn hàng đang được xử lý và gửi đến bạn!";
                 return View(model);
             }
             else
             {
-                TempData["SuccessMsg"] = "Đặt hàng thất bại!";
-                return View(model);
+                //TempData["SuccessMsg"] = "Đặt hàng thất bại!";
+                //return View(model);
+                return RedirectToAction("Register", "Account");
             }            
         }
 

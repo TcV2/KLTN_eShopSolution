@@ -189,6 +189,10 @@
     <value>Purchase</value>
     <comment>/Cart/Checkout</comment>
   </data>
+  <data name="Registration" xml:space="preserve">
+    <value>Registration</value>
+    <comment>/Register</comment>
+  </data>
   <data name="Related Products" xml:space="preserve">
     <value>Related Products</value>
     <comment>/Product/Detail</comment>
